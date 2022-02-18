@@ -4,12 +4,12 @@ import './App.css';
 import Character from "./components/Character";
 
 const App = () => {
-  const [data, setData] = useState()
+  const [characters, setCharacters] = useState([])
 
   useEffect(() => {
     axios.get('https://swapi.dev/api/people')
-    .then(res =>{
-        setData(res.data)
+    .then((res) =>{
+        setCharacters(res.data)
     })
     .catch(err => {
       console.log(err)
@@ -18,8 +18,17 @@ const App = () => {
 
   return (
     <div className="App">
-      {data && <Character photo={data} />}
-      <h1 className="Header">Characters</h1>
+      {characters.map((character, index) => {
+        return(
+          <Character
+          key={`Characters${index}`}
+          name={character.name}
+          homeworld={character.homeworld}
+          gender={character.gender}
+          height={character.height}
+          mass={character.mass} />
+        )
+      })}
     </div>
   );
 }
